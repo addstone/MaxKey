@@ -25,6 +25,8 @@ import org.opensaml.saml.saml2.binding.decoding.impl.HTTPPostSimpleSignDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.shibboleth.utilities.java.support.xml.ParserPool;
+
 public class OpenHTTPPostSimpleSignDecoder extends HTTPPostSimpleSignDecoder {
 	private final Logger log = LoggerFactory.getLogger(OpenHTTPPostSimpleSignDecoder.class);
 
@@ -35,7 +37,7 @@ public class OpenHTTPPostSimpleSignDecoder extends HTTPPostSimpleSignDecoder {
 	}
 
 	public OpenHTTPPostSimpleSignDecoder(ParserPool pool) {
-		super(pool);
+
 	}
 
 	/**
@@ -80,7 +82,7 @@ public class OpenHTTPPostSimpleSignDecoder extends HTTPPostSimpleSignDecoder {
 		log.debug("Intended message destination endpoint: {}",messageDestination);
 		log.debug("Actual message receiver endpoint: {}", receiverEndpoint);
 
-		// 鍗忚澶寸粺涓�锛坔ttp鎴杊ttps锛岄渶瑕佸拰destination缁熶竴锛�
+		// 閸楀繗顔呮径瀵哥埠娑擄拷閿涘潝ttp閹存潑ttps閿涘矂娓剁憰浣告嫲destination缂佺喍绔撮敍锟�
 		if (messageDestination.indexOf("/") != -1
 				&& receiverEndpoint.indexOf("/") != -1) {
 			if (!messageDestination.substring(0,messageDestination.indexOf("/"))
@@ -114,7 +116,7 @@ public class OpenHTTPPostSimpleSignDecoder extends HTTPPostSimpleSignDecoder {
 		StringBuffer urlBuilder = httpRequest.getRequestURL();
 
 		String tempUrl = urlBuilder.toString();
-		// 浠巋ttp鍗忚澶村紑濮嬶紝璺宠繃鍓嶉潰涓や釜鏂滄潬
+		// 娴犲穻ttp閸楀繗顔呮径鏉戠磻婵绱濈捄瀹犵箖閸撳秹娼版稉銈勯嚋閺傛粍娼�
 		tempUrl = tempUrl.substring(tempUrl.indexOf("/", 8) + 1);
 		return receiverEndpoint + tempUrl;
 	}

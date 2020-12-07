@@ -37,7 +37,7 @@ public class OpenHTTPPostDecoder extends HTTPPostDecoder {
     }
 
     public OpenHTTPPostDecoder(ParserPool pool) {
-        super(pool);
+       
     }
 
     /**
@@ -79,7 +79,7 @@ public class OpenHTTPPostDecoder extends HTTPPostDecoder {
         log.debug("Intended message destination endpoint: {}", messageDestination);
         log.debug("Actual message receiver endpoint: {}", receiverEndpoint);
 
-        // 鍗忚澶寸粺涓�锛坔ttp鎴杊ttps锛岄渶瑕佸拰destination缁熶竴锛�
+        // 閸楀繗顔呮径瀵哥埠娑擄拷閿涘潝ttp閹存潑ttps閿涘矂娓剁憰浣告嫲destination缂佺喍绔撮敍锟�
         if (messageDestination.indexOf("/") != -1 && receiverEndpoint.indexOf("/") != -1) {
             if (!messageDestination.substring(0, messageDestination.indexOf("/"))
                     .equalsIgnoreCase(receiverEndpoint.substring(0, receiverEndpoint.indexOf("/")))) {
@@ -108,7 +108,7 @@ public class OpenHTTPPostDecoder extends HTTPPostDecoder {
         StringBuffer urlBuilder = httpRequest.getRequestURL();
 
         String tempUrl = urlBuilder.toString();
-        // 浠巋ttp鍗忚澶村紑濮嬶紝璺宠繃鍓嶉潰涓や釜鏂滄潬
+        // 娴犲穻ttp閸楀繗顔呮径鏉戠磻婵绱濈捄瀹犵箖閸撳秹娼版稉銈勯嚋閺傛粍娼�
         tempUrl = tempUrl.substring(tempUrl.indexOf("/", 8) + 1);
         return receiverEndpoint + tempUrl;
     }

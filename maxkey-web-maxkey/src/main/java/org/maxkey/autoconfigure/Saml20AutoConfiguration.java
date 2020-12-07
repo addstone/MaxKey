@@ -37,12 +37,8 @@ import org.maxkey.authz.saml20.xml.SAML2ValidatorSuite;
 import org.maxkey.constants.ConstantsProperties;
 import org.maxkey.crypto.keystore.KeyStoreLoader;
 import org.maxkey.domain.Saml20Metadata;
-import org.opensaml.common.binding.security.IssueInstantRule;
-import org.opensaml.common.binding.security.MessageReplayRule;
-import org.opensaml.util.storage.MapBasedStorageService;
-import org.opensaml.util.storage.ReplayCache;
-import org.opensaml.xml.ConfigurationException;
-import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.core.config.InitializationException;
+import org.opensaml.core.config.InitializationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -52,6 +48,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
+
+import net.shibboleth.utilities.java.support.xml.BasicParserPool;
 
 @Configuration
 @ComponentScan(basePackages = {
@@ -68,10 +66,14 @@ public class Saml20AutoConfiguration implements InitializingBean {
      * @return samlBootstrapInitializer
      * @throws ConfigurationException 
      */
-    @Bean(name = "samlBootstrapInitializer")
-    public String samlBootstrapInitializer() throws ConfigurationException {
-        org.opensaml.DefaultBootstrap.bootstrap();
-        return "";
+    @Bean(name = "samlBootstrapInitializationService")
+    public String samlBootstrapInitializer() throws InitializationException {
+        try {
+            InitializationService.initialize();
+        } catch (final InitializationException e) {
+            throw new RuntimeException("Exception initializing OpenSAML", e);
+        }
+        return "InitializationService";
     }
     
     /**

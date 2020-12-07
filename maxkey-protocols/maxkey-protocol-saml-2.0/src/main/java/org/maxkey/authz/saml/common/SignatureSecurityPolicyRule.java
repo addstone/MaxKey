@@ -19,16 +19,20 @@
 package org.maxkey.authz.saml.common;
 
 import org.opensaml.core.config.Configuration;
+import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.saml.common.SignableSAMLObject;
 import org.opensaml.saml.security.impl.SAMLSignatureProfileValidator;
 import org.opensaml.security.credential.CredentialResolver;
 import org.opensaml.security.credential.UsageType;
+import org.opensaml.security.criteria.UsageCriterion;
 import org.opensaml.xmlsec.keyinfo.KeyInfoCredentialResolver;
 import org.opensaml.xmlsec.signature.support.impl.ExplicitKeySignatureTrustEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
 * Rule to check that the message has been signed by an issuer that has credentials
@@ -95,9 +99,9 @@ public class SignatureSecurityPolicyRule  implements InitializingBean, SecurityP
 		CriteriaSet criteriaSet = new CriteriaSet();
 		logger.debug("Inbound issuer is {}", messageContext.getInboundMessageIssuer());
 		//https://localhost-dev-ed.my.salesforce.com
-		criteriaSet.add( new EntityIDCriteria(messageContext.getInboundMessageIssuer()));	
+		criteriaSet.add( new EntityIdCriterion(messageContext.getInboundMessageIssuer()));	
 		//criteriaSet.add( new EntityIDCriteria("https://localhost-dev-ed.my.salesforce.com"));
-		criteriaSet.add( new UsageCriteria(UsageType.SIGNING) );
+		criteriaSet.add( new UsageCriterion(UsageType.SIGNING) );
 
 		try {
 			if (!trustEngine.validate( samlMessage.getSignature(), criteriaSet)) {
